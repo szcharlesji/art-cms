@@ -7,7 +7,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export async function createPost(formData: FormData) {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     
     const title = formData.get("title") as string;
@@ -45,7 +45,7 @@ export async function createPost(formData: FormData) {
 
 export async function updatePost(id: number, formData: FormData) {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     
     const title = formData.get("title") as string;
@@ -99,7 +99,7 @@ export async function updatePost(id: number, formData: FormData) {
 
 export async function deletePost(id: number) {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     
     // Get post to delete associated files
@@ -129,7 +129,7 @@ export async function deletePost(id: number) {
 
 export async function getPosts() {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     
     const allPosts = await db.select().from(posts).all();
@@ -142,7 +142,7 @@ export async function getPosts() {
 
 export async function uploadImage(formData: FormData) {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const image = formData.get("image") as File;
     
     if (!image || image.size === 0) {

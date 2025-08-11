@@ -10,14 +10,9 @@ interface ArtworkPageProps {
 }
 
 export const revalidate = 3600; // Revalidate every hour (ISR)
+export const dynamic = "force-dynamic";
 
-export async function generateStaticParams() {
-  const artworks = await getArtworks();
-  
-  return artworks.map((artwork) => ({
-    slug: generateSlug(artwork.title),
-  }));
-}
+// Static params disabled to avoid build-time access to Cloudflare env
 
 export async function generateMetadata({ params }: ArtworkPageProps): Promise<Metadata> {
   const resolvedParams = await params;

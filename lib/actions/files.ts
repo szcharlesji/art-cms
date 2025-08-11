@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
@@ -6,21 +6,21 @@ export type FileItem = {
   key: string;
   size: number;
   lastModified: Date;
-  type: 'image' | 'other';
+  type: "image" | "other";
 };
 
 export async function getFiles(): Promise<FileItem[]> {
   try {
-    const { env } = getCloudflareContext();
-    
+    const { env } = await getCloudflareContext({ async: true });
+
     // List objects in R2 bucket
     const objects = await env.BUCKET.list();
-    
-    return objects.objects.map(obj => ({
+
+    return objects.objects.map((obj) => ({
       key: obj.key,
       size: obj.size,
       lastModified: obj.uploaded,
-      type: isImageFile(obj.key) ? 'image' : 'other'
+      type: isImageFile(obj.key) ? "image" : "other",
     }));
   } catch (error) {
     console.error("Error fetching files:", error);
@@ -29,7 +29,8 @@ export async function getFiles(): Promise<FileItem[]> {
 }
 
 function isImageFile(filename: string): boolean {
-  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
-  const extension = filename.toLowerCase().substring(filename.lastIndexOf('.'));
+  const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
+  const extension = filename.toLowerCase().substring(filename.lastIndexOf("."));
   return imageExtensions.includes(extension);
 }
+

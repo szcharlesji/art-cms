@@ -7,7 +7,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export async function createArtwork(formData: FormData) {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
 
     const title = formData.get("title") as string;
@@ -65,7 +65,7 @@ export async function createArtwork(formData: FormData) {
 
 export async function updateArtwork(id: number, formData: FormData) {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
 
     const title = formData.get("title") as string;
@@ -147,7 +147,7 @@ export async function updateArtwork(id: number, formData: FormData) {
 
 export async function deleteArtwork(id: number) {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
 
     // Get artwork to delete associated files
@@ -182,7 +182,7 @@ export async function deleteArtwork(id: number) {
 
 export async function getArtworks() {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
 
     const allArtworks = await db.select().from(artworks).all();

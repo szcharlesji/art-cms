@@ -10,14 +10,9 @@ interface BlogPostPageProps {
 }
 
 export const revalidate = 3600; // Revalidate every hour (ISR)
+export const dynamic = "force-dynamic";
 
-export async function generateStaticParams() {
-  const posts = await getPosts();
-  
-  return posts.map((post) => ({
-    slug: generateSlug(post.title),
-  }));
-}
+// Static params disabled to avoid build-time access to Cloudflare env
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const resolvedParams = await params;

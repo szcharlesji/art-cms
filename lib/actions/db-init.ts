@@ -6,7 +6,7 @@ import { getDb } from "@/lib/db";
 
 export async function initializeDatabase() {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     
     // Create artworks table
@@ -46,7 +46,7 @@ export async function initializeDatabase() {
 
 export async function checkDatabaseTables() {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     
     // Check if tables exist by querying sqlite_master

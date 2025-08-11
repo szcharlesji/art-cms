@@ -10,6 +10,7 @@ interface CategoryPageProps {
 }
 
 export const revalidate = 3600; // Revalidate every hour (ISR)
+export const dynamic = "force-dynamic";
 
 const validCategories = ["painting", "sculpture", "installation", "other"];
 
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
 async function getArtworksByCategory(category: string) {
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     
     const categoryArtworks = await db
