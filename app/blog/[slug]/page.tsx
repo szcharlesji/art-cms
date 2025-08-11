@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getPosts } from "@/lib/actions/blogs";
 import { generateSlug, formatDate } from "@/lib/utils";
 import type { Post } from "@/lib/db/schema";
+import { imageUrl } from "@/lib/utils";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -28,8 +29,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     };
   }
 
-  const imageCdnBaseUrl = "https://images.xuecong.art/";
-  const imageUrl = `${imageCdnBaseUrl}${encodeURIComponent(post.bannerImage)}`;
+  const ogImage = imageUrl(post.bannerImage);
 
   // Extract first 160 characters for description
   const description = post.content.replace(/<[^>]*>/g, '').substring(0, 160) + "...";
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       description,
       images: [
         {
-          url: imageUrl,
+          url: ogImage,
           width: 1200,
           height: 800,
           alt: post.title,
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       card: "summary_large_image",
       title: `${post.title} - Xuecong Wang Blog`,
       description,
-      images: [imageUrl],
+      images: [ogImage],
     },
   };
 }
@@ -73,8 +73,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const imageCdnBaseUrl = "https://images.xuecong.art/";
-  const bannerImageUrl = `${imageCdnBaseUrl}${encodeURIComponent(post.bannerImage)}`;
+  const bannerImageUrl = imageUrl(post.bannerImage);
 
   return (
     <div className="blog-post-page">

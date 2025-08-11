@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getDb, artworks } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { imageUrl } from "@/lib/utils";
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
@@ -89,15 +90,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       
       <div className="artworkgallery-wrapper">
         {categoryArtworks.map((artwork, index) => {
-          const imageCdnBaseUrl = "https://images.xuecong.art/";
-          const imageUrl = `${imageCdnBaseUrl}${encodeURIComponent(artwork.image)}`;
-          
+          const url = imageUrl(artwork.image);
           return (
             <div
               className="artworkgallery"
               key={index}
             >
-              <img src={imageUrl} alt={artwork.title} loading="lazy" />
+              <img src={url} alt={artwork.title} loading="lazy" />
               <div className="overlay">{artwork.title}</div>
             </div>
           );

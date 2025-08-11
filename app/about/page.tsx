@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { imageUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "About - Xuecong Wang",
@@ -10,10 +11,9 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const imageCdnBaseUrl = "https://images.xuecong.art/";
-  const profileImg = `${imageCdnBaseUrl}MewithTheyWhisper.JPG`;
-  const instaIcon = `${imageCdnBaseUrl}instaicon.svg`;
-  const emailIcon = `${imageCdnBaseUrl}email.svg`;
+  const profileImg = imageUrl("MewithTheyWhisper.JPG");
+  const instaIcon = imageUrl("instaicon.svg");
+  const emailIcon = imageUrl("email.svg");
 
   return (
     <div>

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from "lucide-react";
 import { type Artwork } from "@/lib/db/schema";
 import Image from "next/image";
+import { imageUrl } from "@/lib/utils";
 
 interface ArtworkViewerProps {
   artwork: Artwork | null;
@@ -91,7 +92,7 @@ export function ArtworkViewer({ artwork, open, onClose }: ArtworkViewerProps) {
               {currentImage && !imageError ? (
                 <div className="relative w-full h-full flex items-center justify-center">
                   <Image
-                    src={`/api/image/${encodeURIComponent(currentImage)}`}
+                    src={imageUrl(currentImage)}
                     alt={`${artwork.title} - Image ${currentImageIndex + 1}`}
                     fill
                     className={`object-contain transition-transform duration-200 ${
@@ -234,7 +235,7 @@ export function ArtworkViewer({ artwork, open, onClose }: ArtworkViewerProps) {
                           }`}
                         >
                           <Image
-                            src={`/api/image/${encodeURIComponent(image)}`}
+                            src={imageUrl(image)}
                             alt={`${artwork.title} - Thumbnail ${index + 1}`}
                             fill
                             className="object-cover"

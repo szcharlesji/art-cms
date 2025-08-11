@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getArtworks } from "@/lib/actions/artworks";
 import { generateSlug } from "@/lib/utils";
 import type { Artwork } from "@/lib/db/schema";
+import { imageUrl } from "@/lib/utils";
 
 interface ArtworkPageProps {
   params: Promise<{ slug: string }>;
@@ -28,8 +29,7 @@ export async function generateMetadata({ params }: ArtworkPageProps): Promise<Me
     };
   }
 
-  const imageCdnBaseUrl = "https://images.xuecong.art/";
-  const imageUrl = `${imageCdnBaseUrl}${encodeURIComponent(artwork.image)}`;
+  const ogImage = imageUrl(artwork.image);
 
   return {
     title: `${artwork.title} - Xuecong Wang`,
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: ArtworkPageProps): Promise<Me
         : artwork.description || `Artwork by Xuecong Wang: ${artwork.title}`,
       images: [
         {
-          url: imageUrl,
+          url: ogImage,
           width: 1200,
           height: 800,
           alt: artwork.title,
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: ArtworkPageProps): Promise<Me
       description: Array.isArray(artwork.description) 
         ? artwork.description.join(" ") 
         : artwork.description || `Artwork by Xuecong Wang: ${artwork.title}`,
-      images: [imageUrl],
+      images: [ogImage],
     },
   };
 }
@@ -74,11 +74,8 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
     notFound();
   }
 
-  const imageCdnBaseUrl = "https://images.xuecong.art/";
-  const mainImageUrl = `${imageCdnBaseUrl}${encodeURIComponent(artwork.image)}`;
-  const detailImages = artwork.details?.map(detail => 
-    `${imageCdnBaseUrl}${encodeURIComponent(detail)}`
-  ) || [];
+  const mainImageUrl = imageUrl(artwork.image);
+  const detailImages = artwork.details?.map((detail) => imageUrl(detail)) || [];
 
   return (
     <div className="artwork-page">

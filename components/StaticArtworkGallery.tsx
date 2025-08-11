@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
+import { imageUrl } from "@/lib/utils";
 import Popup from "./Popup";
 import Filter from "./Filter";
 import type { Artwork } from "@/lib/db/schema";
@@ -29,7 +30,7 @@ export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryP
   const processedArtworks = useMemo(() => {
     return artworks.map((artwork) => ({
       ...artwork,
-      url: `/api/image/${encodeURIComponent(artwork.image)}`,
+      url: imageUrl(artwork.image),
     }));
   }, [artworks]);
 
@@ -70,7 +71,7 @@ export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryP
       urls.push((selectedArtwork as Artwork & { url: string }).url);
       if (selectedArtwork.details && Array.isArray(selectedArtwork.details)) {
         selectedArtwork.details.forEach((detail) => {
-          urls.push(`/api/image/${encodeURIComponent(detail)}`);
+          urls.push(imageUrl(detail));
         });
       }
     }

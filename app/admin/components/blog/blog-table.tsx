@@ -41,11 +41,9 @@ export function BlogTable({ posts, onPostUpdate, onPostDelete }: BlogTableProps)
 
   const filteredPosts = posts.filter(post => {
     const matchesTitle = post.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTags = Array.isArray(post.tags) 
+    const matchesTags = Array.isArray(post.tags)
       ? post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-      : typeof post.tags === 'string' 
-        ? post.tags.toLowerCase().includes(searchTerm.toLowerCase())
-        : false;
+      : false;
     return matchesTitle || matchesTags;
   });
 
@@ -138,20 +136,13 @@ export function BlogTable({ posts, onPostUpdate, onPostDelete }: BlogTableProps)
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
-                      {Array.isArray(post.tags) 
+                      {Array.isArray(post.tags)
                         ? post.tags.map((tag, index) => (
                             <Badge key={index} variant="secondary" className="text-xs">
                               {tag}
                             </Badge>
                           ))
-                        : typeof post.tags === 'string' && post.tags.length > 0
-                          ? post.tags.split(',').map((tag, index) => (
-                              <Badge key={index} variant="secondary" className="text-xs">
-                                {tag.trim()}
-                              </Badge>
-                            ))
-                          : null
-                      }
+                        : null}
                     </div>
                   </TableCell>
                   <TableCell>

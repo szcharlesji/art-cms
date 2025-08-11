@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Edit, Calendar } from "lucide-react";
 import { type Post } from "@/lib/db/schema";
+import { imageUrl } from "@/lib/utils";
 
 interface BlogViewerProps {
   post: Post;
@@ -30,22 +31,13 @@ export function BlogViewer({ post, onClose, onEdit }: BlogViewerProps) {
             <Calendar className="h-3 w-3" />
             <span>Published {formatDate(post.publishedAt)}</span>
           </div>
-          {post.tags && (
+          {post.tags && Array.isArray(post.tags) && (
             <div className="flex flex-wrap gap-1">
-              {Array.isArray(post.tags) 
-                ? post.tags.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))
-                : typeof post.tags === 'string' && post.tags.length > 0
-                  ? post.tags.split(',').map((tag, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs">
-                        {tag.trim()}
-                      </Badge>
-                    ))
-                  : null
-              }
+              {post.tags.map((tag, index) => (
+                <Badge key={index} variant="secondary" className="text-xs">
+                  {tag}
+                </Badge>
+              ))}
             </div>
           )}
         </div>
@@ -56,7 +48,7 @@ export function BlogViewer({ post, onClose, onEdit }: BlogViewerProps) {
         {post.bannerImage && (
           <div className="relative aspect-video overflow-hidden rounded-lg border">
             <img
-              src={`/api/image/${encodeURIComponent(post.bannerImage)}`}
+              src={imageUrl(post.bannerImage)}
               alt={post.title}
               className="object-cover w-full h-full"
               onError={(e) => {

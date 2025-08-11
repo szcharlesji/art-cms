@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { ArtworkForm } from "./artwork-form";
 import { ArtworkViewer } from "./artwork-viewer";
 import Image from "next/image";
+import { imageUrl } from "@/lib/utils";
 
 interface ArtworkTableProps {
   artworks: Artwork[];
@@ -109,7 +110,7 @@ export function ArtworkTable({
                       className="w-16 h-16 bg-muted rounded-md overflow-hidden hover:opacity-80 transition-opacity relative flex items-center justify-center"
                     >
                       <Image
-                        src={`/api/image/${encodeURIComponent(artwork.image)}`}
+                        src={imageUrl(artwork.image)}
                         alt={artwork.title}
                         fill
                         className="object-cover"

@@ -22,3 +22,7 @@ export function formatDate(dateString: string): string {
     day: 'numeric',
   });
 }
+
+export function imageUrl(key: string): string {
+  return `/api/image/${encodeURIComponent(key)}`;
+}
