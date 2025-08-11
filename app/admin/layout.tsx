@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Serif, Noto_Serif_SC, Playfair_Display } from "next/font/google";
 import "../globals.css";
+import "quill/dist/quill.snow.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 

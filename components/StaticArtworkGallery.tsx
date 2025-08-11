@@ -13,8 +13,6 @@ export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryP
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [currentDetailIndex, setCurrentDetailIndex] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  
-  const imageCdnBaseUrl = "https://images.xuecong.art/";
 
   useEffect(() => {
     if (selectedArtwork) {
@@ -31,9 +29,9 @@ export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryP
   const processedArtworks = useMemo(() => {
     return artworks.map((artwork) => ({
       ...artwork,
-      url: `${imageCdnBaseUrl}${encodeURIComponent(artwork.image)}`,
+      url: `/api/image/${encodeURIComponent(artwork.image)}`,
     }));
-  }, [artworks, imageCdnBaseUrl]);
+  }, [artworks]);
 
   // Filter artworks based on selected category
   const filteredArtworks = useMemo(() => {
@@ -72,7 +70,7 @@ export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryP
       urls.push((selectedArtwork as Artwork & { url: string }).url);
       if (selectedArtwork.details && Array.isArray(selectedArtwork.details)) {
         selectedArtwork.details.forEach((detail) => {
-          urls.push(`${imageCdnBaseUrl}${encodeURIComponent(detail)}`);
+          urls.push(`/api/image/${encodeURIComponent(detail)}`);
         });
       }
     }

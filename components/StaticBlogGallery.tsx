@@ -8,8 +8,6 @@ interface StaticBlogGalleryProps {
 }
 
 export default function StaticBlogGallery({ posts }: StaticBlogGalleryProps) {
-  const imageCdnBaseUrl = "https://images.xuecong.art/";
-
   if (!posts || posts.length === 0) {
     return (
       <div style={{ textAlign: 'center', padding: '2rem', color: '#001125' }}>
@@ -25,7 +23,7 @@ export default function StaticBlogGallery({ posts }: StaticBlogGalleryProps) {
           <div className="blog-gallery">
             <div className="blog-image-container">
               <img
-                src={`${imageCdnBaseUrl}${post.bannerImage}`}
+                src={`/api/image/${encodeURIComponent(post.bannerImage)}`}
                 alt={post.title}
                 loading="lazy"
               />
