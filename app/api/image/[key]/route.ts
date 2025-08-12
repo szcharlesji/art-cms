@@ -6,9 +6,7 @@ export async function GET(
   context: { params: Promise<{ key: string }> },
 ) {
   try {
-    const { params } = context;
-    const resolvedParams = await params;
-    const { key } = resolvedParams;
+    const { key } = await context.params;
 
     if (!key) {
       return new NextResponse("Image key is required", { status: 400 });
@@ -28,10 +26,7 @@ export async function GET(
       return new NextResponse("Image not found", { status: 404 });
     }
 
-    // Get the image data
-    const imageData = await object.arrayBuffer();
-
-    // Determine content type based on file extension
+    // Stream the image body to avoid CPU and memory overhead
     const getContentType = (filename: string): string => {
       const ext = filename.toLowerCase().split(".").pop();
       switch (ext) {
@@ -47,24 +42,22 @@ export async function GET(
         case "svg":
           return "image/svg+xml";
         default:
-          return "image/jpeg"; // Default fallback
+          return "application/octet-stream";
       }
     };
 
-    const contentType = getContentType(key);
+    const headers = {
+      "Content-Type": getContentType(key),
+      "Cache-Control": "public, max-age=31536000, immutable",
+      ...(object.etag ? { ETag: object.etag } : {}),
+    } as Record<string, string>;
 
-    // Return the image with proper headers
-    return new NextResponse(imageData, {
+    return new NextResponse(object.body as any, {
       status: 200,
-      headers: {
-        "Content-Type": contentType,
-        "Cache-Control": "public, max-age=31536000, immutable", // Cache for 1 year
-        ETag: object.etag || `"${Date.now()}"`,
-      },
+      headers,
     });
   } catch (error) {
     console.error("Error serving image:", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }
-
