@@ -24,5 +24,6 @@ export function formatDate(dateString: string): string {
 }
 
 export function imageUrl(key: string): string {
-  return `/api/image/${encodeURIComponent(key)}`;
+  const baseUrl = process.env.R2_BUCKET_URL || "https://images.xuecong.art";
+  return `${baseUrl}/${encodeURIComponent(key)}`;
 }

@@ -89,7 +89,7 @@ export const RichTextEditor = forwardRef<QuillInstance, RichTextEditorProps>(
                       quill.insertEmbed(
                         range.index,
                         "image",
-                        `/api/image/${encodeURIComponent(result.key)}`,
+                        `${process.env.R2_BUCKET_URL || "https://images.xuecong.art"}/${encodeURIComponent(result.key)}`,
                       );
                     }
                   }
