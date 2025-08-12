@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { imageUrl } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import { imageUrl, generateSlug } from "@/lib/utils";
 import Popup from "./Popup";
 import Filter from "./Filter";
 import type { Artwork } from "@/lib/db/schema";
@@ -13,6 +14,8 @@ interface StaticArtworkGalleryProps {
 export default function StaticArtworkGallery({
   artworks,
 }: StaticArtworkGalleryProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [currentDetailIndex, setCurrentDetailIndex] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
@@ -27,6 +30,28 @@ export default function StaticArtworkGallery({
       document.body.style.overflow = "auto";
     };
   }, [selectedArtwork]);
+
+  // Initialize state from URL params
+  useEffect(() => {
+    const category = searchParams.get("category");
+    const artworkSlug = searchParams.get("artwork");
+
+    // Set filter from URL
+    if (category && ["painting", "sculpture", "installation", "other"].includes(category)) {
+      setSelectedFilter(category);
+    }
+
+    // Set selected artwork from URL
+    if (artworkSlug) {
+      const artwork = artworks.find(
+        (artwork) => generateSlug(artwork.title) === artworkSlug
+      );
+      if (artwork) {
+        setSelectedArtwork(artwork);
+        setCurrentDetailIndex(0);
+      }
+    }
+  }, [searchParams, artworks]);
 
   // Pre-process artworks with image URLs
   const processedArtworks = useMemo(() => {
@@ -46,15 +71,38 @@ export default function StaticArtworkGallery({
 
   const handleFilter = (filterType: string | null) => {
     setSelectedFilter(filterType);
+    
+    // Update URL with filter
+    const params = new URLSearchParams(searchParams);
+    if (filterType) {
+      params.set("category", filterType);
+    } else {
+      params.delete("category");
+    }
+    // Keep artwork param if it exists
+    const newUrl = params.toString() ? `/artworks?${params.toString()}` : '/artworks';
+    router.push(newUrl, { scroll: false });
   };
 
   const openModal = (artwork: Artwork & { url: string }) => {
     setSelectedArtwork(artwork);
     setCurrentDetailIndex(0);
+    
+    // Update URL with artwork
+    const params = new URLSearchParams(searchParams);
+    const artworkSlug = generateSlug(artwork.title);
+    params.set("artwork", artworkSlug);
+    router.push(`/artworks?${params.toString()}`, { scroll: false });
   };
 
   const closeModal = () => {
     setSelectedArtwork(null);
+    
+    // Remove artwork from URL, keep category
+    const params = new URLSearchParams(searchParams);
+    params.delete("artwork");
+    const newUrl = params.toString() ? `/artworks?${params.toString()}` : '/artworks';
+    router.push(newUrl, { scroll: false });
   };
 
   const goToPrevious = () => {
