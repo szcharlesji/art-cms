@@ -18,7 +18,6 @@ import {
   FileText,
   FolderOpen,
   Database,
-  Settings,
   LogOut,
   Home,
 } from "lucide-react";
