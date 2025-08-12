@@ -120,7 +120,7 @@ export default function StaticArtworkGallery({
   const getDetailImageUrls = () => {
     const urls: string[] = [];
     if (selectedArtwork) {
-      urls.push((selectedArtwork as Artwork & { url: string }).url);
+      urls.push(imageUrl(selectedArtwork.image));
       if (selectedArtwork.details && Array.isArray(selectedArtwork.details)) {
         selectedArtwork.details.forEach((detail) => {
           urls.push(imageUrl(detail));
