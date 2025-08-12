@@ -10,6 +10,8 @@ import "../globals.css";
 import "quill/dist/quill.snow.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { AppSidebar } from "@/app/admin/components/app-sidebar";
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,9 +52,16 @@ export default function AdminRootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSerif.variable} ${notoSerifSC.variable} ${playfairDisplay.variable} antialiased`}
+        suppressHydrationWarning={true}
       >
         <SidebarProvider>
-          {children}
+          <AppSidebar />
+          <SidebarInset>
+            <header className="flex h-16 items-center gap-2 border-b px-4">
+              <SidebarTrigger className="-ml-1" />
+            </header>
+            <main className="flex-1 overflow-auto">{children}</main>
+          </SidebarInset>
           <Toaster />
         </SidebarProvider>
       </body>
