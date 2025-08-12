@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Eye, Edit, Trash2, MoreHorizontal, Search, Calendar } from "lucide-react";
+import {
+  Eye,
+  Edit,
+  Trash2,
+  MoreHorizontal,
+  Search,
+  Calendar,
+} from "lucide-react";
 import { BlogForm } from "./blog-form";
 import { BlogViewer } from "./blog-viewer";
 import { deletePost } from "@/lib/actions/blogs";
@@ -32,17 +39,25 @@ interface BlogTableProps {
   onPostDelete: (postId: number) => void;
 }
 
-export function BlogTable({ posts, onPostUpdate, onPostDelete }: BlogTableProps) {
+export function BlogTable({
+  posts,
+  onPostUpdate,
+  onPostDelete,
+}: BlogTableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [editingPost, setEditingPost] = useState<Post | null>(null);
   const [viewingPost, setViewingPost] = useState<Post | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
 
-  const filteredPosts = posts.filter(post => {
-    const matchesTitle = post.title.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredPosts = posts.filter((post) => {
+    const matchesTitle = post.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     const matchesTags = Array.isArray(post.tags)
-      ? post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      ? post.tags.some((tag) =>
+          tag.toLowerCase().includes(searchTerm.toLowerCase()),
+        )
       : false;
     return matchesTitle || matchesTags;
   });
@@ -78,10 +93,10 @@ export function BlogTable({ posts, onPostUpdate, onPostDelete }: BlogTableProps)
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -130,7 +145,10 @@ export function BlogTable({ posts, onPostUpdate, onPostDelete }: BlogTableProps)
                     <div>
                       <div className="font-medium">{post.title}</div>
                       <div className="text-sm text-muted-foreground line-clamp-2">
-                        {post.content?.replace(/<[^>]*>/g, '').substring(0, 100)}...
+                        {post.content
+                          ?.replace(/<[^>]*>/g, "")
+                          .substring(0, 100)}
+                        ...
                       </div>
                     </div>
                   </TableCell>
@@ -138,7 +156,11 @@ export function BlogTable({ posts, onPostUpdate, onPostDelete }: BlogTableProps)
                     <div className="flex flex-wrap gap-1">
                       {Array.isArray(post.tags)
                         ? post.tags.map((tag, index) => (
-                            <Badge key={index} variant="secondary" className="text-xs">
+                            <Badge
+                              key={index}
+                              variant="secondary"
+                              className="text-xs"
+                            >
                               {tag}
                             </Badge>
                           ))
@@ -167,7 +189,7 @@ export function BlogTable({ posts, onPostUpdate, onPostDelete }: BlogTableProps)
                           <Edit className="mr-2 h-4 w-4" />
                           Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           onClick={() => handleDelete(post)}
                           className="text-destructive"
                         >

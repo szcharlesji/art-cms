@@ -53,7 +53,10 @@ export async function createArtwork(formData: FormData) {
       details: detailKeys,
     };
 
-    const [createdArtwork] = await db.insert(artworks).values(newArtwork).returning();
+    const [createdArtwork] = await db
+      .insert(artworks)
+      .values(newArtwork)
+      .returning();
 
     revalidatePath("/artworks");
     return { success: true, artwork: createdArtwork };

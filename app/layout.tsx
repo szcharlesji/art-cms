@@ -5,7 +5,8 @@ import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Xuecong Wang - Artist",
-  description: "Portfolio of artist Xuecong Wang featuring artworks and blog posts",
+  description:
+    "Portfolio of artist Xuecong Wang featuring artworks and blog posts",
 };
 
 export default function RootLayout({
@@ -17,9 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Headbar />
-        <main>
-          {children}
-        </main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

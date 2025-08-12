@@ -14,10 +14,12 @@ export const dynamic = "force-dynamic";
 
 // Static params disabled to avoid build-time access to Cloudflare env
 
-export async function generateMetadata({ params }: ArtworkPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ArtworkPageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const artwork = await getArtworkBySlug(resolvedParams.slug);
-  
+
   if (!artwork) {
     return {
       title: "Artwork Not Found",
@@ -28,13 +30,13 @@ export async function generateMetadata({ params }: ArtworkPageProps): Promise<Me
 
   return {
     title: `${artwork.title} - Xuecong Wang`,
-    description: Array.isArray(artwork.description) 
-      ? artwork.description.join(" ") 
+    description: Array.isArray(artwork.description)
+      ? artwork.description.join(" ")
       : artwork.description || `Artwork by Xuecong Wang: ${artwork.title}`,
     openGraph: {
       title: `${artwork.title} - Xuecong Wang`,
-      description: Array.isArray(artwork.description) 
-        ? artwork.description.join(" ") 
+      description: Array.isArray(artwork.description)
+        ? artwork.description.join(" ")
         : artwork.description || `Artwork by Xuecong Wang: ${artwork.title}`,
       images: [
         {
@@ -48,8 +50,8 @@ export async function generateMetadata({ params }: ArtworkPageProps): Promise<Me
     twitter: {
       card: "summary_large_image",
       title: `${artwork.title} - Xuecong Wang`,
-      description: Array.isArray(artwork.description) 
-        ? artwork.description.join(" ") 
+      description: Array.isArray(artwork.description)
+        ? artwork.description.join(" ")
         : artwork.description || `Artwork by Xuecong Wang: ${artwork.title}`,
       images: [ogImage],
     },
@@ -58,7 +60,9 @@ export async function generateMetadata({ params }: ArtworkPageProps): Promise<Me
 
 async function getArtworkBySlug(slug: string): Promise<Artwork | null> {
   const artworks = await getArtworks();
-  return artworks.find((artwork) => generateSlug(artwork.title) === slug) || null;
+  return (
+    artworks.find((artwork) => generateSlug(artwork.title) === slug) || null
+  );
 }
 
 export default async function ArtworkPage({ params }: ArtworkPageProps) {
@@ -82,23 +86,27 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
           {detailImages.length > 0 && (
             <div className="detail-images">
               {detailImages.map((imageUrl, index) => (
-                <img 
-                  key={index} 
-                  src={imageUrl} 
+                <img
+                  key={index}
+                  src={imageUrl}
                   alt={`${artwork.title} detail ${index + 1}`}
                 />
               ))}
             </div>
           )}
         </div>
-        
+
         <div className="artwork-info">
           <h1 className="artwork-title">{artwork.title}</h1>
           {artwork.time && <p className="artwork-time">Time: {artwork.time}</p>}
-          {artwork.medium && <p className="artwork-medium">Medium: {artwork.medium}</p>}
-          {artwork.dimension && <p className="artwork-dimension">Dimension: {artwork.dimension}</p>}
+          {artwork.medium && (
+            <p className="artwork-medium">Medium: {artwork.medium}</p>
+          )}
+          {artwork.dimension && (
+            <p className="artwork-dimension">Dimension: {artwork.dimension}</p>
+          )}
           <p className="artwork-category">Category: {artwork.category}</p>
-          
+
           {artwork.description && (
             <div className="artwork-description">
               <h2>Description:</h2>
@@ -116,4 +124,3 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
     </div>
   );
 }
-

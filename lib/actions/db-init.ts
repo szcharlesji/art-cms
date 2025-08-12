@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { sql } from "drizzle-orm";
@@ -8,7 +8,7 @@ export async function initializeDatabase() {
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
-    
+
     // Create artworks table
     await db.run(sql`
       CREATE TABLE IF NOT EXISTS artworks (
@@ -48,18 +48,18 @@ export async function checkDatabaseTables() {
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
-    
+
     // Check if tables exist by querying sqlite_master
-    const tables = await db.all(sql`
+    const tables = (await db.all(sql`
       SELECT name FROM sqlite_master 
       WHERE type='table' AND name IN ('artworks', 'posts')
       ORDER BY name;
-    `) as Array<{ name: string }>;
-    
+    `)) as Array<{ name: string }>;
+
     return {
-      artworksExists: tables.some(t => t.name === 'artworks'),
-      postsExists: tables.some(t => t.name === 'posts'),
-      tables: tables.map(t => t.name)
+      artworksExists: tables.some((t) => t.name === "artworks"),
+      postsExists: tables.some((t) => t.name === "posts"),
+      tables: tables.map((t) => t.name),
     };
   } catch (error) {
     console.error("Error checking database tables:", error);
@@ -67,7 +67,7 @@ export async function checkDatabaseTables() {
       artworksExists: false,
       postsExists: false,
       tables: [],
-      error: error instanceof Error ? error.message : "Unknown error"
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }

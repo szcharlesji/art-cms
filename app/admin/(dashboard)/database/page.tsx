@@ -1,9 +1,15 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { PageHeader } from "@/app/admin/components/page-header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { initializeDatabase, checkDatabaseTables } from "@/lib/actions/db-init";
 import { toast } from "sonner";
@@ -26,7 +32,11 @@ export default function DatabasePage() {
       toast.success("Database initialized successfully");
       await handleCheck();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to initialize database");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to initialize database",
+      );
     } finally {
       setIsInitializing(false);
     }
@@ -43,7 +53,9 @@ export default function DatabasePage() {
         toast.success("Database status checked");
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to check database");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to check database",
+      );
     } finally {
       setIsChecking(false);
     }
@@ -51,11 +63,11 @@ export default function DatabasePage() {
 
   return (
     <div className="space-y-6 p-6">
-      <PageHeader 
-        title="Database Management" 
+      <PageHeader
+        title="Database Management"
         description="Initialize and manage your D1 database tables"
       />
-      
+
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -72,11 +84,15 @@ export default function DatabasePage() {
               This will create the following tables in your D1 database:
             </p>
             <ul className="text-sm space-y-1">
-              <li>• <code>artworks</code> - Store artwork information and metadata</li>
-              <li>• <code>posts</code> - Store blog posts and content</li>
+              <li>
+                • <code>artworks</code> - Store artwork information and metadata
+              </li>
+              <li>
+                • <code>posts</code> - Store blog posts and content
+              </li>
             </ul>
-            <Button 
-              onClick={handleInitialize} 
+            <Button
+              onClick={handleInitialize}
               disabled={isInitializing}
               className="w-full"
             >
@@ -96,8 +112,8 @@ export default function DatabasePage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button 
-              onClick={handleCheck} 
+            <Button
+              onClick={handleCheck}
               disabled={isChecking}
               variant="outline"
               className="w-full"
@@ -109,13 +125,19 @@ export default function DatabasePage() {
               <div className="space-y-3 pt-4 border-t">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Artworks Table:</span>
-                  <Badge variant={tableStatus.artworksExists ? "default" : "secondary"}>
+                  <Badge
+                    variant={
+                      tableStatus.artworksExists ? "default" : "secondary"
+                    }
+                  >
                     {tableStatus.artworksExists ? "Exists" : "Missing"}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Posts Table:</span>
-                  <Badge variant={tableStatus.postsExists ? "default" : "secondary"}>
+                  <Badge
+                    variant={tableStatus.postsExists ? "default" : "secondary"}
+                  >
                     {tableStatus.postsExists ? "Exists" : "Missing"}
                   </Badge>
                 </div>
@@ -124,7 +146,11 @@ export default function DatabasePage() {
                     <span className="text-sm font-medium">All Tables:</span>
                     <div className="flex flex-wrap gap-1 mt-1">
                       {tableStatus.tables.map((table) => (
-                        <Badge key={table} variant="outline" className="text-xs">
+                        <Badge
+                          key={table}
+                          variant="outline"
+                          className="text-xs"
+                        >
                           {table}
                         </Badge>
                       ))}
@@ -149,9 +175,17 @@ export default function DatabasePage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2 text-sm">
-            <p>1. Click &quot;Initialize Database&quot; to create the required tables</p>
-            <p>2. Use &quot;Check Database Status&quot; to verify tables were created</p>
-            <p>3. Navigate to Artworks or Blog sections to start adding content</p>
+            <p>
+              1. Click &quot;Initialize Database&quot; to create the required
+              tables
+            </p>
+            <p>
+              2. Use &quot;Check Database Status&quot; to verify tables were
+              created
+            </p>
+            <p>
+              3. Navigate to Artworks or Blog sections to start adding content
+            </p>
           </div>
         </CardContent>
       </Card>

@@ -10,7 +10,9 @@ interface StaticArtworkGalleryProps {
   artworks: Artwork[];
 }
 
-export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryProps) {
+export default function StaticArtworkGallery({
+  artworks,
+}: StaticArtworkGalleryProps) {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [currentDetailIndex, setCurrentDetailIndex] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
@@ -37,7 +39,9 @@ export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryP
   // Filter artworks based on selected category
   const filteredArtworks = useMemo(() => {
     if (!selectedFilter) return processedArtworks;
-    return processedArtworks.filter(artwork => artwork.category === selectedFilter);
+    return processedArtworks.filter(
+      (artwork) => artwork.category === selectedFilter,
+    );
   }, [processedArtworks, selectedFilter]);
 
   const handleFilter = (filterType: string | null) => {
@@ -81,7 +85,7 @@ export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryP
   return (
     <div>
       <Filter onFilter={handleFilter} selectedFilter={selectedFilter} />
-      
+
       <div className="artworkgallery-wrapper">
         {filteredArtworks.map((artwork, index) => (
           <div
@@ -89,14 +93,18 @@ export default function StaticArtworkGallery({ artworks }: StaticArtworkGalleryP
             key={artwork.id || index}
             onClick={() => openModal(artwork as Artwork & { url: string })}
           >
-            <img src={(artwork as Artwork & { url: string }).url} alt={artwork.title} loading="lazy" />
+            <img
+              src={(artwork as Artwork & { url: string }).url}
+              alt={artwork.title}
+              loading="lazy"
+            />
             <div className="overlay">{artwork.title}</div>
           </div>
         ))}
       </div>
 
       {filteredArtworks.length === 0 && (
-        <div style={{ textAlign: 'center', padding: '2rem', color: '#001125' }}>
+        <div style={{ textAlign: "center", padding: "2rem", color: "#001125" }}>
           No artworks found for the selected category.
         </div>
       )}

@@ -3,10 +3,12 @@ import { imageUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "About - Xuecong Wang",
-  description: "Learn about artist Xuecong Wang, their artistic practice, and contact information",
+  description:
+    "Learn about artist Xuecong Wang, their artistic practice, and contact information",
   openGraph: {
     title: "About - Xuecong Wang",
-    description: "Learn about artist Xuecong Wang, their artistic practice, and contact information",
+    description:
+      "Learn about artist Xuecong Wang, their artistic practice, and contact information",
   },
 };
 
@@ -23,8 +25,7 @@ export default function AboutPage() {
           <div className="header">Artist Statement:</div>
           <div className="generaldes">
             Xuecong Wang <span className="generaldessc">王雪聪</span> (IPA:/wɑŋ
-            çyɛ tsʰʊŋ/) lives and works in Sichuan, China, and New York,
-            US.
+            çyɛ tsʰʊŋ/) lives and works in Sichuan, China, and New York, US.
           </div>
           <div className="generaldes">
             In an era marked by the rapid advancement of technology in domains

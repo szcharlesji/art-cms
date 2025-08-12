@@ -33,4 +33,3 @@ function isImageFile(filename: string): boolean {
   const extension = filename.toLowerCase().substring(filename.lastIndexOf("."));
   return imageExtensions.includes(extension);
 }
-

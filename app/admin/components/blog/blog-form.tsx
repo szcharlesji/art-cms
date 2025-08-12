@@ -1,10 +1,14 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { createPost, updatePost } from "@/lib/actions/blogs";
 import { toast } from "sonner";
 import { type Post } from "@/lib/db/schema";
@@ -23,10 +27,10 @@ export function BlogForm({ post, onClose, onSuccess }: BlogFormProps) {
 
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
-    
+
     // Add the rich text content to the form data
     formData.set("content", content);
-    
+
     try {
       let result;
       if (isEditing && post) {
@@ -36,7 +40,7 @@ export function BlogForm({ post, onClose, onSuccess }: BlogFormProps) {
         result = await createPost(formData);
         toast.success("Post created successfully");
       }
-      
+
       if (result?.success && result.post && onSuccess) {
         onSuccess(result.post);
       }
@@ -56,7 +60,7 @@ export function BlogForm({ post, onClose, onSuccess }: BlogFormProps) {
           {isEditing ? "Update the blog post" : "Create a new blog post"}
         </DialogDescription>
       </DialogHeader>
-      
+
       <form action={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -69,7 +73,7 @@ export function BlogForm({ post, onClose, onSuccess }: BlogFormProps) {
               placeholder="Enter post title"
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="publishedAt">Publish Date *</Label>
             <Input
@@ -77,9 +81,9 @@ export function BlogForm({ post, onClose, onSuccess }: BlogFormProps) {
               name="publishedAt"
               type="date"
               defaultValue={
-                post?.publishedAt 
-                  ? new Date(post.publishedAt).toISOString().split('T')[0] 
-                  : new Date().toISOString().split('T')[0]
+                post?.publishedAt
+                  ? new Date(post.publishedAt).toISOString().split("T")[0]
+                  : new Date().toISOString().split("T")[0]
               }
               required
             />
@@ -91,7 +95,11 @@ export function BlogForm({ post, onClose, onSuccess }: BlogFormProps) {
           <Input
             id="tags"
             name="tags"
-            defaultValue={Array.isArray(post?.tags) ? post.tags.join(", ") : post?.tags || ""}
+            defaultValue={
+              Array.isArray(post?.tags)
+                ? post.tags.join(", ")
+                : post?.tags || ""
+            }
             placeholder="Enter tags separated by commas"
           />
         </div>
@@ -123,7 +131,11 @@ export function BlogForm({ post, onClose, onSuccess }: BlogFormProps) {
 
         <div className="flex gap-2 pt-4">
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Saving..." : (isEditing ? "Update Post" : "Create Post")}
+            {isSubmitting
+              ? "Saving..."
+              : isEditing
+                ? "Update Post"
+                : "Create Post"}
           </Button>
           {onClose && (
             <Button type="button" variant="outline" onClick={onClose}>

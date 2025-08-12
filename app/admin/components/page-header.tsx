@@ -1,7 +1,7 @@
 interface PageHeaderProps {
-  title: string
-  description?: string
-  children?: React.ReactNode
+  title: string;
+  description?: string;
+  children?: React.ReactNode;
 }
 
 export function PageHeader({ title, description, children }: PageHeaderProps) {
@@ -15,5 +15,5 @@ export function PageHeader({ title, description, children }: PageHeaderProps) {
       </div>
       {children && <div className="flex items-center gap-2">{children}</div>}
     </div>
-  )
+  );
 }

@@ -4,11 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function FilesPage() {
   return (
     <div className="space-y-6 p-6">
-      <PageHeader 
-        title="Files" 
+      <PageHeader
+        title="Files"
         description="Manage your media files and uploads"
       />
-      
+
       <Card>
         <CardHeader>
           <CardTitle>File Management</CardTitle>

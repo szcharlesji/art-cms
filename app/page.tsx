@@ -4,10 +4,12 @@ import StaticArtworkGallery from "@/components/StaticArtworkGallery";
 
 export const metadata: Metadata = {
   title: "Xuecong Wang - Artist Portfolio",
-  description: "Explore the artistic works of Xuecong Wang, featuring paintings, sculptures, installations, and other art forms",
+  description:
+    "Explore the artistic works of Xuecong Wang, featuring paintings, sculptures, installations, and other art forms",
   openGraph: {
     title: "Xuecong Wang - Artist Portfolio",
-    description: "Explore the artistic works of Xuecong Wang, featuring paintings, sculptures, installations, and other art forms",
+    description:
+      "Explore the artistic works of Xuecong Wang, featuring paintings, sculptures, installations, and other art forms",
   },
 };
 

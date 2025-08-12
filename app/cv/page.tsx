@@ -2,10 +2,12 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "CV - Xuecong Wang",
-  description: "Curriculum Vitae of artist Xuecong Wang including education, exhibitions, and awards",
+  description:
+    "Curriculum Vitae of artist Xuecong Wang including education, exhibitions, and awards",
   openGraph: {
-    title: "CV - Xuecong Wang", 
-    description: "Curriculum Vitae of artist Xuecong Wang including education, exhibitions, and awards",
+    title: "CV - Xuecong Wang",
+    description:
+      "Curriculum Vitae of artist Xuecong Wang including education, exhibitions, and awards",
   },
 };
 

@@ -20,18 +20,21 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: CategoryPageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const category = resolvedParams.category;
-  
+
   if (!validCategories.includes(category)) {
     return {
       title: "Category Not Found",
     };
   }
 
-  const categoryDisplayName = category.charAt(0).toUpperCase() + category.slice(1);
-  
+  const categoryDisplayName =
+    category.charAt(0).toUpperCase() + category.slice(1);
+
   return {
     title: `${categoryDisplayName} Artworks - Xuecong Wang`,
     description: `Browse ${categoryDisplayName.toLowerCase()} artworks by artist Xuecong Wang`,
@@ -46,13 +49,18 @@ async function getArtworksByCategory(category: string) {
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
-    
+
     const categoryArtworks = await db
       .select()
       .from(artworks)
-      .where(eq(artworks.category, category as "painting" | "sculpture" | "installation" | "other"))
+      .where(
+        eq(
+          artworks.category,
+          category as "painting" | "sculpture" | "installation" | "other",
+        ),
+      )
       .all();
-      
+
     return categoryArtworks;
   } catch (error) {
     console.error("Error fetching artworks by category:", error);
@@ -69,15 +77,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   const categoryArtworks = await getArtworksByCategory(category);
-  const categoryDisplayName = category.charAt(0).toUpperCase() + category.slice(1);
-  
+  const categoryDisplayName =
+    category.charAt(0).toUpperCase() + category.slice(1);
+
   const getCategoryNameInChinese = (cat: string) => {
     switch (cat) {
-      case "painting": return "绘画";
-      case "sculpture": return "雕塑"; 
-      case "installation": return "装置";
-      case "other": return "其他";
-      default: return "";
+      case "painting":
+        return "绘画";
+      case "sculpture":
+        return "雕塑";
+      case "installation":
+        return "装置";
+      case "other":
+        return "其他";
+      default:
+        return "";
     }
   };
 
@@ -85,27 +99,25 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     <div className="category-page">
       <div className="blog-header-wrapper">
         <div className="header">
-          {categoryDisplayName} <span className="headersc">{getCategoryNameInChinese(category)}</span>
+          {categoryDisplayName}{" "}
+          <span className="headersc">{getCategoryNameInChinese(category)}</span>
         </div>
       </div>
-      
+
       <div className="artworkgallery-wrapper">
         {categoryArtworks.map((artwork, index) => {
           const url = imageUrl(artwork.image);
           return (
-            <div
-              className="artworkgallery"
-              key={index}
-            >
+            <div className="artworkgallery" key={index}>
               <img src={url} alt={artwork.title} loading="lazy" />
               <div className="overlay">{artwork.title}</div>
             </div>
           );
         })}
       </div>
-      
+
       {categoryArtworks.length === 0 && (
-        <div style={{ textAlign: 'center', padding: '2rem', color: '#001125' }}>
+        <div style={{ textAlign: "center", padding: "2rem", color: "#001125" }}>
           No {category} artworks found.
         </div>
       )}

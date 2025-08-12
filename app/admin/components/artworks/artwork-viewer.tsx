@@ -199,19 +199,20 @@ export function ArtworkViewer({ artwork, open, onClose }: ArtworkViewerProps) {
                   <div>
                     <h3 className="font-semibold text-lg mb-3">Description</h3>
                     <div className="space-y-2">
-                      {Array.isArray(artwork.description) 
-                        ? artwork.description.map((paragraph, index) => (
-                            <p
-                              key={index}
-                              className="text-sm text-muted-foreground leading-relaxed"
-                            >
-                              {paragraph}
-                            </p>
-                          ))
-                        : <p className="text-sm text-muted-foreground leading-relaxed">
-                            {artwork.description}
+                      {Array.isArray(artwork.description) ? (
+                        artwork.description.map((paragraph, index) => (
+                          <p
+                            key={index}
+                            className="text-sm text-muted-foreground leading-relaxed"
+                          >
+                            {paragraph}
                           </p>
-                      }
+                        ))
+                      ) : (
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {artwork.description}
+                        </p>
+                      )}
                     </div>
                   </div>
                 )}

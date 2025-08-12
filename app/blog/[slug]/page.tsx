@@ -14,10 +14,12 @@ export const dynamic = "force-dynamic";
 
 // Static params disabled to avoid build-time access to Cloudflare env
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const post = await getPostBySlug(resolvedParams.slug);
-  
+
   if (!post) {
     return {
       title: "Blog Post Not Found",
@@ -27,7 +29,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const ogImage = imageUrl(post.bannerImage);
 
   // Extract first 160 characters for description
-  const description = post.content.replace(/<[^>]*>/g, '').substring(0, 160) + "...";
+  const description =
+    post.content.replace(/<[^>]*>/g, "").substring(0, 160) + "...";
 
   return {
     title: `${post.title} - Xuecong Wang Blog`,
@@ -74,9 +77,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <div className="blog-post-page">
       <article className="blog-post-container">
         <header className="blog-post-header">
-          <img 
-            src={bannerImageUrl} 
-            alt={post.title} 
+          <img
+            src={bannerImageUrl}
+            alt={post.title}
             className="blog-post-banner"
           />
           <div className="blog-post-meta">
@@ -93,8 +96,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             )}
           </div>
         </header>
-        
-        <div 
+
+        <div
           className="blog-post-content"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />

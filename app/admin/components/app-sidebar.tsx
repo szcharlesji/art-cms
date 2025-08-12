@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Sidebar,
@@ -11,19 +11,19 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { 
-  LayoutDashboard, 
-  Image, 
-  FileText, 
-  FolderOpen, 
+} from "@/components/ui/sidebar";
+import {
+  LayoutDashboard,
+  Image,
+  FileText,
+  FolderOpen,
   Database,
   Settings,
   LogOut,
-  Home
-} from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+  Home,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
@@ -51,10 +51,10 @@ const menuItems = [
     url: "/admin/files",
     icon: FolderOpen,
   },
-]
+];
 
 export function AppSidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <Sidebar>
@@ -102,5 +102,5 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

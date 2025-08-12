@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 import { PageHeader } from "@/app/admin/components/page-header";
@@ -26,43 +26,42 @@ export default function ArtworksPage() {
         setIsLoading(false);
       }
     }
-    
+
     loadArtworks();
   }, []);
 
   const handleArtworkCreated = (newArtwork: Artwork) => {
-    setArtworks(prev => [newArtwork, ...prev]);
+    setArtworks((prev) => [newArtwork, ...prev]);
     setIsCreateDialogOpen(false);
   };
 
   const handleArtworkUpdated = (updatedArtwork: Artwork) => {
-    setArtworks(prev => prev.map(artwork => 
-      artwork.id === updatedArtwork.id ? updatedArtwork : artwork
-    ));
+    setArtworks((prev) =>
+      prev.map((artwork) =>
+        artwork.id === updatedArtwork.id ? updatedArtwork : artwork,
+      ),
+    );
   };
 
   const handleArtworkDeleted = (artworkId: number) => {
-    setArtworks(prev => prev.filter(artwork => artwork.id !== artworkId));
+    setArtworks((prev) => prev.filter((artwork) => artwork.id !== artworkId));
   };
 
   return (
     <div className="space-y-6 p-6">
-      <PageHeader 
-        title="Artworks" 
-        description="Manage your artwork collection"
-      >
+      <PageHeader title="Artworks" description="Manage your artwork collection">
         <Button onClick={() => setIsCreateDialogOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           Add Artwork
         </Button>
       </PageHeader>
-      
+
       {isLoading ? (
         <div className="border rounded-lg p-8 text-center">
           <p className="text-muted-foreground">Loading artworks...</p>
         </div>
       ) : (
-        <ArtworkTable 
+        <ArtworkTable
           artworks={artworks}
           onArtworkUpdate={handleArtworkUpdated}
           onArtworkDelete={handleArtworkDeleted}
@@ -72,7 +71,7 @@ export default function ArtworksPage() {
       {/* Create Dialog */}
       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <ArtworkForm 
+          <ArtworkForm
             onClose={() => setIsCreateDialogOpen(false)}
             onSuccess={handleArtworkCreated}
           />
