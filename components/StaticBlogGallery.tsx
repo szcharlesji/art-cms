@@ -27,6 +27,8 @@ export default function StaticBlogGallery({ posts }: StaticBlogGalleryProps) {
               <Image
                 src={imageUrl(post.bannerImage)}
                 alt={post.title}
+                width={600}
+                height={400}
                 loading="lazy"
               />
               <div className="blog-overlay">{post.title}</div>

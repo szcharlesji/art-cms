@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPosts } from "@/lib/actions/blogs";
-import { generateSlug, formatDate } from "@/lib/utils";
+import { generateSlug, formatDate, processImageUrls } from "@/lib/utils";
 import type { Post } from "@/lib/db/schema";
 import { imageUrl } from "@/lib/utils";
 
@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         <div
           className="blog-post-content"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: processImageUrls(post.content) }}
         />
       </article>
     </div>
