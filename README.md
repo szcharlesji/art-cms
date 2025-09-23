@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Xuecong.art CMS
 
-## Getting Started
+> Work-in-progress content platform tailored for <https://xuecong.art>. Self-hosting is technically possible, but the focus remains the official production deployment.
 
-First, run the development server:
+## Why It Matters
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Purpose-built CMS that highlights artworks with clean presentation and minimal latency.
+- 100% Cloudflare footprint (Pages, Workers, KV, D1-ready) to deliver fast responses worldwide.
+- Edge-aware routing, incremental static regeneration, and tuned image caching for galleries.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Current Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Per-artwork SEO metadata, sitemap entries, and social card generation managed in-app.
+- Rich text editor for essays and artwork notes with media embeds and formatting safeguards.
+- Artwork, collection, and journal modules powered by shared UI primitives for cohesive styling.
+- Bun-powered local dev on port 8787 with hot reload plus linting via `bun run lint`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+- Next.js App Router + React 19 with TypeScript and Tailwind utility styling.
+- Bun toolchain, class-variance-authority for theme variants, and Drizzle ORM targeting libSQL / D1.
+- Wrangler-managed environment secrets and OpenNext Cloudflare build, preview, and deploy flows.
 
-To learn more about Next.js, take a look at the following resources:
+## Future Roadmap
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Replace the current editor with Meta's Lexical and explore real-time collaboration.
+- Improve loading states, streaming boundaries, and image delivery (responsive crops, AVIF/WebP).
+- Expand admin panel UX for curators, audit logging, and draft approval workflows.
+- Harden security around asset uploads, secret rotation, and role-based access control.
