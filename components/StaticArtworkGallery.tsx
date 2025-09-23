@@ -7,6 +7,12 @@ import Popup from "./Popup";
 import Filter from "./Filter";
 import type { Artwork } from "@/lib/db/schema";
 
+interface ProcessedArtwork extends Artwork {
+  url: string;
+  aspectRatio?: number;
+  isLoading?: boolean;
+}
+
 interface StaticArtworkGalleryProps {
   artworks: Artwork[];
 }
@@ -19,6 +25,9 @@ export default function StaticArtworkGallery({
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [currentDetailIndex, setCurrentDetailIndex] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  
+  // Pre-process artworks with image URLs and dimension detection
+  const [processedArtworks, setProcessedArtworks] = useState<ProcessedArtwork[]>([]);
 
   useEffect(() => {
     if (selectedArtwork) {
@@ -41,9 +50,9 @@ export default function StaticArtworkGallery({
       setSelectedFilter(category);
     }
 
-    // Set selected artwork from URL
-    if (artworkSlug) {
-      const artwork = artworks.find(
+    // Set selected artwork from URL (only if processedArtworks is ready)
+    if (artworkSlug && processedArtworks.length > 0) {
+      const artwork = processedArtworks.find(
         (artwork) => generateSlug(artwork.title) === artworkSlug
       );
       if (artwork) {
@@ -51,14 +60,68 @@ export default function StaticArtworkGallery({
         setCurrentDetailIndex(0);
       }
     }
-  }, [searchParams, artworks]);
+  }, [searchParams, processedArtworks]);
 
-  // Pre-process artworks with image URLs
-  const processedArtworks = useMemo(() => {
-    return artworks.map((artwork) => ({
-      ...artwork,
-      url: imageUrl(artwork.image),
-    }));
+  const getImageDimensions = (src: string): Promise<{ width: number; height: number }> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve({ width: img.width, height: img.height });
+      img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+      img.src = src;
+    });
+  };
+
+  useEffect(() => {
+    const processArtworks = async () => {
+      const initialArtworks: ProcessedArtwork[] = artworks.map((artwork) => ({
+        ...artwork,
+        url: imageUrl(artwork.image),
+        isLoading: true,
+      }));
+      
+      setProcessedArtworks(initialArtworks);
+
+      // Load image dimensions in batches to avoid overwhelming the browser
+      const batchSize = 5;
+      for (let i = 0; i < initialArtworks.length; i += batchSize) {
+        const batch = initialArtworks.slice(i, i + batchSize);
+        
+        const batchPromises = batch.map(async (artwork, index) => {
+          try {
+            const dimensions = await getImageDimensions(artwork.url);
+            const aspectRatio = (dimensions.height / dimensions.width) * 100;
+            return {
+              index: i + index,
+              aspectRatio,
+              isLoading: false,
+            };
+          } catch (error) {
+            console.warn(`Failed to load dimensions for ${artwork.title}:`, error);
+            return {
+              index: i + index,
+              aspectRatio: 75, // Default 4:3 aspect ratio
+              isLoading: false,
+            };
+          }
+        });
+
+        const results = await Promise.all(batchPromises);
+        
+        setProcessedArtworks(prev => {
+          const updated = [...prev];
+          results.forEach(result => {
+            updated[result.index] = {
+              ...updated[result.index],
+              aspectRatio: result.aspectRatio,
+              isLoading: result.isLoading,
+            };
+          });
+          return updated;
+        });
+      }
+    };
+
+    processArtworks();
   }, [artworks]);
 
   // Filter artworks based on selected category
@@ -84,7 +147,7 @@ export default function StaticArtworkGallery({
     router.push(newUrl, { scroll: false });
   };
 
-  const openModal = (artwork: Artwork & { url: string }) => {
+  const openModal = (artwork: ProcessedArtwork) => {
     setSelectedArtwork(artwork);
     setCurrentDetailIndex(0);
     
@@ -137,16 +200,30 @@ export default function StaticArtworkGallery({
       <div className="artworkgallery-wrapper">
         {filteredArtworks.map((artwork, index) => (
           <div
-            className="artworkgallery"
+            className={`artworkgallery ${artwork.isLoading ? 'loading' : ''}`}
             key={artwork.id || index}
-            onClick={() => openModal(artwork as Artwork & { url: string })}
+            onClick={() => openModal(artwork)}
+            style={{
+              '--aspect-ratio': artwork.aspectRatio ? `${artwork.aspectRatio}%` : '75%'
+            } as React.CSSProperties}
           >
-            <img
-              src={(artwork as Artwork & { url: string }).url}
-              alt={artwork.title}
-              loading="lazy"
-            />
-            <div className="overlay">{artwork.title}</div>
+            <div className="artworkgallery-content">
+              {artwork.isLoading ? (
+                <div className="skeleton" />
+              ) : (
+                <img
+                  src={artwork.url}
+                  alt={artwork.title}
+                  loading="lazy"
+                  className="artwork-image"
+                  onError={(e) => {
+                    console.warn(`Failed to load image for ${artwork.title}`);
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              )}
+              <div className="overlay">{artwork.title}</div>
+            </div>
           </div>
         ))}
       </div>
