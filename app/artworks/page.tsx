@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { getArtworks } from "@/lib/actions/artworks";
 import StaticArtworkGallery from "@/components/StaticArtworkGallery";
+import Starter from "@/components/Starter";
 
 export const metadata: Metadata = {
   title: "Artworks - Xuecong Wang",
@@ -21,6 +22,7 @@ export default async function ArtworksPage() {
 
   return (
     <div>
+      <Starter />
       <Suspense fallback={<div>Loading...</div>}>
         <StaticArtworkGallery artworks={artworks} />
       </Suspense>
