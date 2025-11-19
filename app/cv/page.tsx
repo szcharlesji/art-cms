@@ -18,10 +18,10 @@ export default function CvPage() {
         <div className="header">
           CV <span className="headersc">简历</span>
         </div>
-        <div className="cv-caption">Last update: June 2025</div>
+        <div className="cv-caption">Last update: October 2025</div>
         <a
-          href="/Xuecong_ArtResumeJun2025.pdf"
-          download="Xuecong_ArtResumeJun2025.pdf"
+          href="/Xuecong_ArtResumeOct2025.pdf"
+          download="Xuecong_ArtResumeOct2025.pdf"
           className="download-link"
         >
           Download CV
@@ -33,16 +33,22 @@ export default function CvPage() {
         <div className="generaldes extra-indent">
           BFA: Studio Art, Minor: Psychology
         </div>
-        <div className="header">Exhibitions:</div>
+        <div className="header">Exhibition Highlights:</div>
         <div className="generaldes">2025</div>
+        <div className="generaldes extra-indent">
+          16th Annual Figurative Art Exhibition, Lore Degenstein Gallery, Selinsgrove, PA
+        </div>
+        <div className="generaldes extra-indent">
+          Spectrum: A Multidisciplinary Gallery&amp;Reading, Brown Sugar Lit, Brooklyn, NY
+        </div>
+        <div className="generaldes extra-indent">
+          Half Wind, Half Still, A Space Gallery, Brooklyn, NY
+        </div>
         <div className="generaldes extra-indent">
           NYU ISAI Public Showcase, La MaMa Theatre, New York, NY
         </div>
         <div className="generaldes extra-indent">
           Timeless Theatrics, Commons Gallery, New York, NY
-        </div>
-        <div className="generaldes extra-indent">
-          Meditations in Blue, Saint Marks Arts, New York, NY
         </div>
         <div className="generaldes">2024</div>
         <div className="generaldes extra-indent">
@@ -58,11 +64,6 @@ export default function CvPage() {
         <div className="generaldes extra-indent">
           Fingerfertigkeiten, St. Agnes, Berlin, Germany
         </div>
-        <div className="generaldes">2022</div>
-        <div className="generaldes extra-indent">
-          NYU Earth Day Fair, Schwarz Plaza, New York, NY
-        </div>
-
         <div className="header">Awards and Grants:</div>
         <div className="generaldes">2025</div>
         <div className="generaldes extra-indent">
