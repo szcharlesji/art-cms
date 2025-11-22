@@ -17,15 +17,17 @@ export default function AdminRootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1" />
-        </header>
-        <main className="flex-1 overflow-auto">{children}</main>
-      </SidebarInset>
-      <Toaster />
-    </SidebarProvider>
+    <div className="min-h-screen bg-background">
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-16 items-center gap-2 border-b px-4 bg-background">
+            <SidebarTrigger className="-ml-1" />
+          </header>
+          <div className="flex-1 overflow-auto bg-background">{children}</div>
+        </SidebarInset>
+        <Toaster />
+      </SidebarProvider>
+    </div>
   );
 }

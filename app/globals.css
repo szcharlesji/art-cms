@@ -12,6 +12,11 @@ body {
   font-family: "Playfair Display", serif;
 }
 
+/* Admin route styles - remove padding for admin panel */
+body.admin-route {
+  padding-top: 0;
+}
+
 /* Headbar styles */
 .headbar-wrapper {
   display: flex;
